@@ -106,8 +106,8 @@ class Remote(Pwn):
         return self.sock.recv(n)
 
 class Local(Pwn):
-    def __init__(self, *args):
-        self.proc = subprocess.Popen(args, stdin = subprocess.PIPE, stdout = subprocess.PIPE)
+    def __init__(self, args, env = {}):
+        self.proc = subprocess.Popen(args, stdin = subprocess.PIPE, stdout = subprocess.PIPE, env = env)
 
     def close(self):
         self.proc.stdin.close()
