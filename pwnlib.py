@@ -3,7 +3,6 @@ import struct
 import subprocess
 import threading
 import commands
-from hexdump import hexdump
 import time
 import sys
 import os
@@ -25,11 +24,11 @@ class Pwn:
             if ret.endswith(delim):
                 return ret
 
-    def sendafter(self, data, delim):
+    def sendafter(self, delim, data):
         self.recvuntil(delim)
         self.send(data)
 
-    def sendlineafter(self, data, delim):
+    def sendlineafter(self, delim, data):
         self.recvuntil(delim)
         self.sendline(data)
 
@@ -76,7 +75,7 @@ class Remote(Pwn):
         return self.sock.recv(n)
 
 class Local(Pwn):
-    def __init__(self, args, env = {}):
+    def __init__(self, *args, **env):
         self.proc = subprocess.Popen(args, stdin = subprocess.PIPE, stdout = subprocess.PIPE, env = env)
 
     def close(self):
